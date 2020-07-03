@@ -1,4 +1,4 @@
-module go-libs
+module github.com/binpossible49/go-libs
 
 go 1.14
 
