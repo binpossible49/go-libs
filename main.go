@@ -15,7 +15,7 @@ func main() {
 	})
 	fmt.Println(err)
 
-	zap.S().Infow("Test", log.Object("Test", Test{Name: "Test", CardNo: "12345678912345678"}))
+	zap.S().Info(Test{Name: "Test", CardNo: "12345678912345678"})
 }
 
 type Test struct {

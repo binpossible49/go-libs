@@ -1,12 +1,17 @@
 package log
 
 import (
+	"bytes"
 	"encoding/json"
+	"io"
 	"reflect"
 	"regexp"
 	"strings"
 	"sync"
 
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/golang/protobuf/proto"
+	logging "github.com/grpc-ecosystem/go-grpc-middleware/logging"
 	"go.uber.org/zap"
 )
 
@@ -24,6 +29,29 @@ func InitJSONMaskLogging(maskFields map[string]string) {
 	once.Do(func() {
 		jsonMaskLoggingInstance = &jsonMaskLogging{maskFields}
 	})
+}
+
+func (pjm *jsonMaskLogging) Marshal(w io.Writer, m proto.Message) error {
+	jsonPbMarshaler := &jsonpb.Marshaler{}
+	err := jsonPbMarshaler.Marshal(w, m)
+	if err != nil {
+		return nil
+	}
+	buffer := w.(*bytes.Buffer)
+	buffer.Bytes()
+	jsonString := pjm.MaskJSON(buffer.String())
+	buffer.Reset()
+	buffer.Write([]byte(jsonString))
+	return nil
+}
+
+// GetJSONPBMaskLogging to get instance
+func GetJSONPBMaskLogging() logging.JsonPbMarshaler {
+	if jsonMaskLoggingInstance == nil {
+		zap.S().Panic("Can't get jsonMaskLoggingInstance")
+		return nil
+	}
+	return jsonMaskLoggingInstance
 }
 
 // GetJSONMaskLogging to get instance
