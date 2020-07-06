@@ -11,6 +11,7 @@ import (
 
 func main() {
 	fmt.Println("Hello")
+	log.InitZap("go-libs", "D", map[string]string{})
 	registry.BuildDIContainer()
 	err := log.InitZap("Lib", "D", map[string]string{
 		"cardno": "(?P<FIRST>[0-9]{6})(?P<MASK>[0-9]*)(?P<LAST>[0-9]{4})",
