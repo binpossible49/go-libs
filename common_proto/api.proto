@@ -1,0 +1,20 @@
+syntax = "proto3";
+option go_package = "commonproto";
+package commonproto;
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service CommonProtoAPI {
+    rpc Liveness(google.protobuf.Empty) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            get:"/liveness"
+        };
+    }
+
+    rpc Readiness(google.protobuf.Empty) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            get: "/readiness"
+        };
+    }
+}
