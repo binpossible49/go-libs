@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	log "github.com/binpossible49/go-libs/log"
 
 	"go.uber.org/zap"
 )
@@ -15,7 +16,7 @@ type dbHelper struct {
 func NewOracleDBHelper(host string, port int, username, password, database string) DBHelper {
 	db, err := initOracle(host, port, username, password, database)
 	if err != nil {
-		zap.S().Panic("Failed to init oracle", zap.Error(err))
+		log.Logger.Panic("Failed to init oracle", zap.Error(err))
 	}
 	return &dbHelper{
 		db: db,
