@@ -77,7 +77,7 @@ func buildConfigs() error {
 	if ConfigsBuilder == nil {
 		log.Logger.Warn("Missing Builder for Configs")
 	}
-	defs := ConfigsBuilder()
+	defs = ConfigsBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func buildAPIs() error {
 	if APIsBuilder == nil {
 		log.Logger.Warn("Missing Builder for APIs")
 	}
-	defs := APIsBuilder()
+	defs = APIsBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err
@@ -103,7 +103,7 @@ func buildUsecases() error {
 	if UsecasesBuilder == nil {
 		log.Logger.Warn("Missing Builder for Usecases")
 	}
-	defs := UsecasesBuilder()
+	defs = UsecasesBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err
@@ -116,7 +116,7 @@ func buildRepositories() error {
 	if RepositoriesBuilder == nil {
 		log.Logger.Warn("Missing Builder for Repositories")
 	}
-	defs := RepositoriesBuilder()
+	defs = RepositoriesBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err
@@ -129,7 +129,7 @@ func buildAdapters() error {
 	if AdaptersBuilder == nil {
 		log.Logger.Warn("Missing Builder for Adapter")
 	}
-	defs := AdaptersBuilder()
+	defs = AdaptersBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err
@@ -142,7 +142,7 @@ func buildHelpers() error {
 	if HelpersBuilder == nil {
 		log.Logger.Warn("Missing Builder for Helper")
 	}
-	defs := HelpersBuilder()
+	defs = HelpersBuilder()
 	err := builder.Add(defs...)
 	if err != nil {
 		return err

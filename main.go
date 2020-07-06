@@ -4,12 +4,14 @@ import (
 	"fmt"
 
 	log "github.com/binpossible49/go-libs/log"
+	"github.com/binpossible49/go-libs/registry"
 
 	"go.uber.org/zap"
 )
 
 func main() {
 	fmt.Println("Hello")
+	registry.BuildDIContainer()
 	err := log.InitZap("Lib", "D", map[string]string{
 		"cardno": "(?P<FIRST>[0-9]{6})(?P<MASK>[0-9]*)(?P<LAST>[0-9]{4})",
 	})
