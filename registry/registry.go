@@ -3,8 +3,6 @@ package registry
 import (
 	"sync"
 
-	log "github.com/binpossible49/go-libs/log"
-
 	"github.com/sarulabs/di"
 )
 
@@ -72,7 +70,6 @@ func CleanDependency() error {
 func buildConfigs() error {
 	defs := []di.Def{}
 	if ConfigsBuilder == nil {
-		log.Logger.Warn("Missing Builder for Configs")
 		ConfigsBuilder = defaultBuilder
 	}
 	defs = ConfigsBuilder()
@@ -86,7 +83,6 @@ func buildConfigs() error {
 func buildAPIs() error {
 	defs := []di.Def{}
 	if APIsBuilder == nil {
-		log.Logger.Warn("Missing Builder for APIs")
 		APIsBuilder = defaultBuilder
 	}
 	defs = APIsBuilder()
@@ -100,7 +96,6 @@ func buildAPIs() error {
 func buildUsecases() error {
 	defs := []di.Def{}
 	if UsecasesBuilder == nil {
-		log.Logger.Warn("Missing Builder for Usecases")
 		UsecasesBuilder = defaultBuilder
 	}
 	defs = UsecasesBuilder()
@@ -114,7 +109,6 @@ func buildUsecases() error {
 func buildRepositories() error {
 	defs := []di.Def{}
 	if RepositoriesBuilder == nil {
-		log.Logger.Warn("Missing Builder for Repositories")
 		RepositoriesBuilder = defaultBuilder
 	}
 	defs = RepositoriesBuilder()
@@ -128,7 +122,6 @@ func buildRepositories() error {
 func buildAdapters() error {
 	defs := []di.Def{}
 	if AdaptersBuilder == nil {
-		log.Logger.Warn("Missing Builder for Adapter")
 		AdaptersBuilder = defaultBuilder
 	}
 	defs = AdaptersBuilder()
@@ -142,7 +135,6 @@ func buildAdapters() error {
 func buildHelpers() error {
 	defs := []di.Def{}
 	if HelpersBuilder == nil {
-		log.Logger.Warn("Missing Builder for Helper")
 		HelpersBuilder = defaultBuilder
 	}
 	defs = HelpersBuilder()
