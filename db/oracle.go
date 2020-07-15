@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+
 	log "github.com/binpossible49/go-libs/log"
 
 	"go.uber.org/zap"

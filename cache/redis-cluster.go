@@ -3,6 +3,7 @@ package cache
 import (
 	"context"
 	"encoding/json"
+	"reflect"
 	"time"
 
 	"github.com/binpossible49/go-libs/opentracing/jaeger"
@@ -96,4 +97,43 @@ func (h *clusterRedisHelper) Expire(ctx context.Context, key string, expiration 
 		return err
 	}
 	return nil
+}
+
+func (h *clusterRedisHelper) GetInterface(ctx context.Context, key string, value interface{}) (interface{}, error) {
+	var err error
+	span := jaeger.Start(ctx, ">helper.redisHelper/GetInterface", ext.SpanKindRPCClient)
+	defer func() {
+		jaeger.Finish(span, err)
+	}()
+
+	data, err := h.clusterClient.Get(key).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	typeValue := reflect.TypeOf(value)
+	kind := typeValue.Kind()
+
+	var outData interface{}
+	switch kind {
+	case reflect.Ptr, reflect.Struct, reflect.Slice:
+		outData = reflect.New(typeValue).Interface()
+	default:
+		outData = reflect.Zero(typeValue).Interface()
+	}
+	err = json.Unmarshal([]byte(data), &outData)
+	if err != nil {
+		return nil, err
+	}
+
+	switch kind {
+	case reflect.Ptr, reflect.Struct, reflect.Slice:
+		return reflect.ValueOf(outData).Elem().Interface(), nil
+	}
+	var outValue interface{} = outData
+	if reflect.TypeOf(outData).ConvertibleTo(typeValue) {
+		outValueConverted := reflect.ValueOf(outData).Convert(typeValue)
+		outValue = outValueConverted.Interface()
+	}
+	return outValue, nil
 }
