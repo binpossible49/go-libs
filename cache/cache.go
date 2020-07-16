@@ -15,6 +15,8 @@ type CacheHelper interface {
 	Set(ctx context.Context, key string, value interface{}, expiration time.Duration) error
 	Del(ctx context.Context, key string) error
 	Expire(ctx context.Context, key string, expiration time.Duration) error
+	DelMulti(ctx context.Context, keys ...string) error
+	GetKeysByPattern(ctx context.Context, pattern string, cursor uint64, limit int64) ([]string, uint64, error)
 }
 
 // NewCacheHelper creates an instance

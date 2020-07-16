@@ -139,3 +139,24 @@ func (h *redisHelper) GetInterface(ctx context.Context, key string, value interf
 	}
 	return outValue, nil
 }
+
+func (h *redisHelper) DelMulti(ctx context.Context, keys ...string) error {
+	var err error
+	span := jaeger.Start(ctx, ">helper.redisHelper/DelMulti", ext.SpanKindRPCClient)
+	defer func() {
+		jaeger.Finish(span, err)
+	}()
+	pipeline := h.client.TxPipeline()
+	pipeline.Del(keys...)
+	_, err = pipeline.Exec()
+	return err
+}
+
+func (h *redisHelper) GetKeysByPattern(ctx context.Context, pattern string, cursor uint64, limit int64) ([]string, uint64, error) {
+	var err error
+	span := jaeger.Start(ctx, ">helper.redisHelper/GetKeysByPattern", ext.SpanKindRPCClient)
+	defer func() {
+		jaeger.Finish(span, err)
+	}()
+	return h.client.Scan(cursor, pattern, limit).Result()
+}
