@@ -101,7 +101,7 @@ func (h *clusterRedisHelper) Expire(ctx context.Context, key string, expiration 
 
 func (h *clusterRedisHelper) GetInterface(ctx context.Context, key string, value interface{}) (interface{}, error) {
 	var err error
-	span := jaeger.Start(ctx, ">helper.redisHelper/GetInterface", ext.SpanKindRPCClient)
+	span := jaeger.Start(ctx, ">helper.clusterRedisHelper/GetInterface", ext.SpanKindRPCClient)
 	defer func() {
 		jaeger.Finish(span, err)
 	}()
@@ -136,4 +136,23 @@ func (h *clusterRedisHelper) GetInterface(ctx context.Context, key string, value
 		outValue = outValueConverted.Interface()
 	}
 	return outValue, nil
+}
+
+func (h *clusterRedisHelper) DelMulti(ctx context.Context, keys ...string) error {
+	var err error
+	span := jaeger.Start(ctx, ">helper.clusterRedisHelper/DelMulti", ext.SpanKindRPCClient)
+	defer func() {
+		jaeger.Finish(span, err)
+	}()
+	return err
+}
+
+func (h *clusterRedisHelper) GetKeysByPattern(ctx context.Context, pattern string, cursor uint64, limit int64) ([]string, uint64, error) {
+	var err error
+	span := jaeger.Start(ctx, ">helper.clusterRedisHelper/GetKeysByPattern", ext.SpanKindRPCClient)
+	defer func() {
+		jaeger.Finish(span, err)
+	}()
+	var keys []string
+	return keys, 0, err
 }
